@@ -2,6 +2,8 @@ library(xml2)
 library(rvest)
 library(httr)
 library(stringr)
+library(pdftools)
+library(lubridate)
 
 # scrape together all links to LabPhon articles
 # the parameters "?f=1" already exclude the two non-article types: "editorial" & "correction"
@@ -33,3 +35,11 @@ for (url in head(download_URLS)) {
          file.rename("articles/temp.file", paste0("articles/PDF/", filename))
          )
 }
+
+# rename PDFs with authors & year (non-standard for now)
+for (PDF in list.files("articles/PDF", full.names = TRUE)) {
+  authors <- pdf_info(PDF)$keys$Author
+  year <- pdf_info(PDF)$created %>% year() %>% as.character()
+  file.rename(PDF, paste0("articles/PDF/", year, " ", authors, ".pdf"))
+}
+
