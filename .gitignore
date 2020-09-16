@@ -72,3 +72,10 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+
+#####
+Data
+#####
+
+/articles/PDF/*
+/articles/XML/*
