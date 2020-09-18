@@ -131,5 +131,6 @@ statcheck_out <- checkdir("articles/HTML/")
 
 # Write output ------------------------------------------------------------
 
+dir.create("data", showWarnings = FALSE)
 save(articles, file = "data/articles.RData")
 write_csv(statcheck_out, "data/statcheck_out.csv")
