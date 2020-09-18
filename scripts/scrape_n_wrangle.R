@@ -84,20 +84,20 @@ for (XML in list.files("articles/XML/", full.names = TRUE)) {
   # read file
   xfile <- read_xml(XML)
   # get article type (just to make sure there's no editorials etc. that made their way into the downloaded files)
-  type <- xml_find_all(xfile, "@article-type") %>% xml_text()
+  type <- xml_find_first(xfile, "@article-type") %>% xml_text()
   # get publication date
   date <-
-    xml_find_all(xfile, "/article/front/article-meta/pub-date") %>% xml_attr("iso-8601-date")
+    xml_find_first(xfile, "/article/front/article-meta/pub-date") %>% xml_attr("iso-8601-date")
   # get title
   title <-
-    xml_find_all(xfile,
+    xml_find_first(xfile,
                  "/article/front/article-meta/title-group/article-title") %>% xml_text()
   # get author surname(s)
   names <- xml_find_all(xfile,
                         "/article/front/article-meta/contrib-group/contrib/name/surname") %>%
     xml_text()
   # get abstract
-  abstract <- xml_find_all(xfile, "//abstract") %>% xml_text()
+  abstract <- xml_find_first(xfile, "//abstract") %>% xml_text()
   # get and concatenate all running text (all paragraphs)
   # this excludes section titles, figures, tables etc.
   text <- xml_find_all(xfile, "/article/body/sec/p") %>%
