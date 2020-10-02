@@ -120,7 +120,9 @@ for (XML in list.files("articles/XML/", full.names = TRUE)) {
     keywords = list(keywords)
   )
   # add the new row to 'articles'
-  articles <- articles %>% add_row(article)
+  if (article$type == "research-article") {
+    articles <- articles %>% add_row(article)
+  }
 }
 
 # Statcheck ---------------------------------------------------------------
