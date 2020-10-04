@@ -1,3 +1,19 @@
+############
+### Info ###
+############
+#
+## Authors:  Mathias Stoeber (m . stober @ posteo . de)
+#            Timo Roettger (timo . b . roettger @ gmail . com)
+#
+## Project: Assessing Methods in LabPhon
+#
+##          Scraping and Wrangling
+#
+##          Scraps all articles from web, makes tidy, applies statcheck, and saves derived files
+#
+## Version: 02/10/2020
+
+
 # Load packages -----------------------------------------------------------
 
 library(xml2)
