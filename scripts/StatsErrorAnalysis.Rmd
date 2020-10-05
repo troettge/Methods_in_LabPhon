@@ -1,0 +1,130 @@
+---
+title: "StatsErrorAnalysis"
+author: "Timo Roettger"
+date: "10/4/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+# load in packages
+library(rstudioapi)
+library(tidyverse)
+
+# load in statcheck output
+stats <- read_csv("../data/statcheck_out.csv")
+
+# load all articles
+load(file = "../data/articles.RData")
+
+```
+
+Which unique articles can be analyzed with statcheck?
+
+```{r}
+
+unique(stats$Source)
+
+```
+What is the proportion of analyzable articles?
+
+```{r}
+
+prop_articles <- length(unique(stats$Source)) / length(unique(articles$title))
+prop_articles
+
+```
+
+Almost half of all articles are analyzable
+
+## Error Analysis
+
+How many statistical indices could be checked?
+
+```{r }
+
+no_checks <- nrow(stats)
+no_checks
+
+```
+
+How many statistical errors are detected?
+
+```{r }
+
+stats_error <- stats %>% 
+  filter(Error == "TRUE")
+
+no_errors <- nrow(stats_error)
+no_errors
+
+```
+
+How many statistical errors are detected that cross the alpha level (= Decision errors)?
+
+```{r }
+
+stats_error_dec <- stats_error %>% 
+  filter(DecisionError == "TRUE")
+
+no_decision_errors <- nrow(stats_error_dec)
+no_decision_errors
+
+```
+
+Proportion of errors?
+
+```{r }
+
+prop_errors <- no_errors / no_checks
+prop_errors
+
+```
+
+How many articles have at least one error?
+
+```{r }
+
+no_error_articles <- 
+  length(
+    unique(
+     stats[stats$Error == "TRUE",]$Source
+      )
+    )
+
+no_error_articles
+
+```
+
+Proportion of articles with an error relative to those that statcheck has evaluated?
+
+```{r }
+
+prop_error_article <- no_error_articles / prop_articles
+prop_error_article
+
+```
+
+What's the size of the mismatch between reported and calculated p-value
+
+```{r}
+
+# calculate difference between reported and calculated p-value
+difference <- stats_error$Reported.P.Value - stats_error$Computed
+
+# is the reported p-value lower
+p_better <- ifelse(difference < 0, 1, 0)
+
+range(difference)
+
+```
+
+
+
+
+
