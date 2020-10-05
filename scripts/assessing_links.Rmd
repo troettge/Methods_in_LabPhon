@@ -1,0 +1,70 @@
+---
+title: "Methods in LabPhon: Assessing link quality"
+author: "Mathias Stoeber & Timo Roettger"
+date: "2020-10-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE}
+# Load packages
+library(tidyverse)
+```
+
+```{r eval=FALSE, include=TRUE}
+# Load pre-wrangled data
+load("data/articles.RData")
+
+# Wrangle for current purpose
+expanded <- unnest_longer(articles, links) %>%
+  select(date, title, links)
+
+# Write to disk
+write_csv(expanded, "data/hyperlinks.csv")
+```
+
+```{r}
+#################################
+# ++External review & export++
+# ++Open the .csv created above as a spreadsheet, click the links, and add some tags++
+# ++Export as "data/hyperlinks_reviewed.csv"++
+#################################
+```
+
+```{r message=FALSE, warning=FALSE}
+# Load the reviewed data
+link_df <- read_csv("../data/hyperlinks_reviewed.csv")
+
+papers <- length(unique(link_df$title))
+
+n_links <- link_df %>%
+  filter(!is.na(link_df$links)) %>%
+  nrow()
+
+provides_links <- link_df %>% 
+  filter(!is.na(link_df$links)) %>% 
+  distinct(title) %>% 
+  nrow()
+
+alive <- link_df %>% 
+  filter(status == "alive") %>% 
+  nrow()
+
+possibly_relevant <- link_df %>% 
+  filter(type  %in% c("soundfile", "data/scripts/tutorials/software")) %>% 
+  nrow()
+
+soundfiles <- link_df %>% 
+  filter(type == "soundfile") %>% 
+  nrow()
+
+assess_papers <- link_df %>% 
+  filter(type == "data/scripts/tutorials/software") %>% 
+  distinct(title) %>% 
+  nrow()
+```
+
+There are **`r n_links`** hyperlinks in total, provided by **`r provides_links`** of the total of **`r papers`** papers. Not all of these links can still be accessed, but are 'dead' or 'rotten', leaving **`r alive`** active links. Many of these links point to websites that don't contain any sort of output (data, software, stimuli, scripts etc.) directly or indirectly resulting from the research for the respective paper, reducing the number of potentially relevant linkings to **`r possibly_relevant`**. Some LabPhon articles contain individual links per supplementary (speech) sound file (**`r soundfiles`** such links in total), so there remain **`r possibly_relevant - soundfiles`** links to be assessed in manual review, to be found in **`r assess_papers`** individual papers.
