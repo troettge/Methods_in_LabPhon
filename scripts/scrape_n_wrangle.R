@@ -9,9 +9,9 @@
 #
 ##          Scraping and Wrangling
 #
-##          Scraps all articles from web, makes tidy, applies statcheck, and saves derived files
+##          Scrapes all articles from web, makes tidy, applies statcheck, and saves derived files
 #
-## Version: 02/10/2020
+## Version: 2020-10-02
 
 
 # Load packages -----------------------------------------------------------
