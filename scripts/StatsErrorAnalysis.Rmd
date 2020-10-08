@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r}
+```{r echo = FALSE, message = FALSE, warning = FALSE}
 
 # load in packages
 library(rstudioapi)
@@ -23,42 +23,85 @@ stats <- read_csv("../data/statcheck_out.csv")
 load(file = "../data/articles.RData")
 
 ```
+## 1. Size of subset?
 
-Which unique articles can be analyzed with statcheck?
+```{r echo = FALSE, eval = FALSE}
 
-```{r}
+# Which unique articles can be analyzed with statcheck?
 
 unique(stats$Source)
 
 ```
-What is the proportion of analyzable articles?
+What is the proportion of analyzable articles relative to all available articles?
 
-```{r}
+```{r echo = FALSE}
 
 prop_articles <- length(unique(stats$Source)) / length(unique(articles$title))
-prop_articles
+round(prop_articles, 3)
 
 ```
 
 Almost half of all articles are analyzable
 
-## Error Analysis
+## 2. Error Analysis
 
-How many statistical indices could be checked?
+```{r echo = FALSE}
 
-```{r }
+## preprocess
+
+# subset those that have errors
+stats_error <- stats %>% 
+  filter(Error == "TRUE")
+
+# subset those that have decision errors
+stats_error_dec <- stats_error %>% 
+  filter(DecisionError == "TRUE")
+
+# insert error type after manual checks of papers
+stats_error$ErrorType <- "INSERT"
+
+# change manually
+stats_error$ErrorType <- ifelse(stats_error$Value == 2.400, "rounding",
+                         ifelse(stats_error$Value == 3.230, "error",
+                         ifelse(stats_error$Value == 1.520, "error",
+                         ifelse(stats_error$Value == 6.560, "error",
+                         ifelse(stats_error$Value == 7.690, "rounding",
+                         ifelse(stats_error$Value == 4.760, "typo (used < instead of =)",
+                         ifelse(stats_error$Value == 0.120, "error",
+                         ifelse(stats_error$Value == 1.710, "rounding",
+                         ifelse(stats_error$Value == 3.200, "error",
+                         ifelse(stats_error$Value == -0.616, "rounding",
+                         ifelse(stats_error$Value == -1.835, "error (rounding?)",
+                         ifelse(stats_error$Value == -2.427, "error (rounding?)",
+                         ifelse(stats_error$Value == 2.204, "error",
+                         ifelse(stats_error$Value == -2.783, "rounding",
+                         ifelse(stats_error$Value == -2.234, "rounding",
+                         ifelse(stats_error$Value == 7.65, "rounding",
+                         ifelse(stats_error$Value == -0.7, "error",
+                         ifelse(stats_error$Value == 0.680, "p = 0",
+                         ifelse(stats_error$Value == 13.870, "typo (used > instead of <)",
+                         ifelse(stats_error$Value == 2.100, "error",
+                         ifelse(stats_error$Value == 3.160, "error",
+                         ifelse(stats_error$Value == 3.400, "rounding",   
+                         ifelse(stats_error$Value == 12.700, "rounding",
+                         # two papers with same value but both same error type
+                         ifelse(stats_error$Value == 0.600, "error",
+                              stats_error$ErrorType ))))))))))))))))))))))))
+                               
+```
+
+How many individual statistical results could be checked?
+
+```{r echo = FALSE}
 
 no_checks <- nrow(stats)
 no_checks
 
 ```
 
-How many statistical errors are detected?
+How many of these are flagged as a statistical errors?
 
-```{r }
-
-stats_error <- stats %>% 
-  filter(Error == "TRUE")
+```{r echo = FALSE}
 
 no_errors <- nrow(stats_error)
 no_errors
@@ -67,7 +110,7 @@ no_errors
 
 How many statistical errors are detected that cross the alpha level (= Decision errors)?
 
-```{r }
+```{r echo = FALSE}
 
 stats_error_dec <- stats_error %>% 
   filter(DecisionError == "TRUE")
@@ -77,18 +120,18 @@ no_decision_errors
 
 ```
 
-Proportion of errors?
+What is the proportion of errors?
 
-```{r }
+```{r echo = FALSE}
 
 prop_errors <- no_errors / no_checks
-prop_errors
+round(prop_errors, 3)
 
 ```
 
 How many articles have at least one error?
 
-```{r }
+```{r echo = FALSE}
 
 no_error_articles <- 
   length(
@@ -101,18 +144,22 @@ no_error_articles
 
 ```
 
-Proportion of articles with an error relative to those that statcheck has evaluated?
+Proportion of articles with at least one error relative to those that statcheck has evaluated?
 
-```{r }
+```{r echo = FALSE}
 
 prop_error_article <- no_error_articles / prop_articles
-prop_error_article
+round(prop_error_article, 3)
 
 ```
 
-What's the size of the mismatch between reported and calculated p-value
+### Interim summary: 
+Statcheck was able to check `r no_checks` results. `r round(prop_articles,2) * 100`% of all articles contained at least one statistical result that could be automatically checked. Overall, there were `r no_errors` and `r no_error_articles` had at least one error. In other words, `r round(prop_error_article,1)`% of all articles (that were checkable) contained an error. 
 
-```{r}
+
+```{r echo = FALSE, eval = FALSE}
+
+## What's the median size of the mismatch between reported and calculated p-value?
 
 # calculate difference between reported and calculated p-value
 difference <- stats_error$Reported.P.Value - stats_error$Computed
@@ -120,11 +167,57 @@ difference <- stats_error$Reported.P.Value - stats_error$Computed
 # is the reported p-value lower
 p_better <- ifelse(difference < 0, 1, 0)
 
-range(difference)
+median(difference)
 
 ```
 
+## 3. Type of errors (+ manually checked)
 
+```{r echo = FALSE, eval = FALSE}
+
+xtabs(~ErrorType, stats_error)
+
+```
+
+There were 11 errors that were difficult to evaluate, 2 errors that could be a rounding error after applying a one-sided test, there were 9 clear rounding errors, 2 typos in which <, >, or = were errorneously used, and there was one case in which the p-value was very small and was mistakenly specified as p = 0.
+
+## 4. Bias?
+How often do errors increase or decrease the actual p-value?
+
+```{r echo = FALSE}
+
+stats_error$lowerP <- ifelse(stats_error$Computed > stats_error$Reported.P.Value, 1, 0)
+
+prop_lowerP = sum(stats_error$lowerP) / nrow(stats_error)
+round(prop_lowerP, 3)
+
+```
+
+How many non-rounding errors increase or decrease the actual p-value?
+
+```{r echo = FALSE}
+
+stats_errors_nonRounding <- stats_error %>% 
+  filter(ErrorType %in% c("error", "error (rounding)")) 
+
+prop_lowerP_nonRounding = sum(stats_errors_nonRounding$lowerP) / nrow(stats_errors_nonRounding)
+round(prop_lowerP_nonRounding, 3)
+
+```
+
+How many rounding errors increase or decrease the actual p-value?
+
+```{r echo = FALSE}
+
+stats_errors_rounding <- stats_error %>% 
+  filter(ErrorType %in% c("rounding", "error (rounding)")) 
+
+prop_lowerP_Rounding = sum(stats_errors_rounding$lowerP) / nrow(stats_errors_rounding)
+round(prop_lowerP_Rounding, 3)
+
+```
+
+It seems as if two thirds of all errors lead to errorneously speficying the p-value as smaller as calculated from the test statistic.
 
 
 
