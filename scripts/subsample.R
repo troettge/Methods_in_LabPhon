@@ -22,9 +22,4 @@ for (article in unique(subsample$title)) {
   )
 }
 
-# Write csv: a copy of hyperlinks_reviewed called subsample
-# Add columns to it
-# Make it into Numbers doc with a sheet for each nerd
-
-
-
+write_csv(subsample, "data/subsample.csv")
