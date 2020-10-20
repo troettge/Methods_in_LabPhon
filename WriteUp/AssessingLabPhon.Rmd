@@ -1,0 +1,142 @@
+---
+title             : "Assessing transparency and rigour in Laboratory Phonology"
+shorttitle        : "Assessing LabPhon"
+
+author: 
+  - name          : "Timo B. Roettger"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "timo.b.roettger@gmail.com"
+    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+      - Conceptualization
+      - Methodology
+      - Data Curation
+      - Investigation
+      - Project administration
+      - Writing - Original Draft Preparation
+      - Writing - Review & Editing
+      - Visualization
+      
+  - name          : "Mathias Stoeber"
+    affiliation   : "2"
+    role:
+      - Conceptualization
+      - Methodology
+      - Data Curation
+      - Investigation
+      - Project administration
+      - Writing - Review & Editing
+      - Visualization
+
+affiliation:
+  - id            : "1"
+    institution   : "Universitetet i Oslo"
+  - id            : "2"
+    institution   : "Universität Osnabrück"
+
+authornote: |
+  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
+
+  Enter author note here.
+
+abstract: |
+  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
+  
+  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
+  
+  One sentence clearly stating the **general problem** being addressed by  this particular study.
+  
+  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
+  
+  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
+  
+  One or two sentences to put the results into a more **general context**.
+  
+  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
+  
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "method" "replication" "open data" "reproducibility" "preregistration"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Introduction
+
+Labphon is awesome because
+- read the original Pierrehumbert, J., Beckman, M. E., & Ladd, D. R. (2000). Conceptual foundations of phonology as a laboratory science. Phonological knowledge: Conceptual and empirical issues, 273-304.
+
+From official editorial policies: 
+
+"The journal *strongly encourages* authors to make all data associated with their submission openly available, according to the FAIR principles (Findable, Accessible, Interoperable, Reusable). This should be linked to from a Data Accessibility Statement within the submitted paper, which will be made public upon publication. If data is not being made available with the journal publication then ideally a statement from the author should be provided within the submission to explain why. Data obtained from other sources must be appropriately credited."
+
+"If research includes the use of software code, statistical analysis or algorithms then we also *recommend* that authors upload the code into Code Ocean, where it will be hosted on an open, cloud-based computational reproducibility platform, providing researchers and developers with an easy way to share, validate and discover code published in academic journals."
+
+replicability and reproducibility in quant sciences
+- lack or replicability
+- reasons:
+  - lack of transparency
+    - errors and bias
+    - unclear value of evidence (--> power)
+   - researcher degrees of freedoms not detectable
+  - lack of direct replication
+    - cannot ensure empirical robustness
+    
+Where does LabPhon stand?    
+
+# Is LabPhon research open?
+RESULTS
+
+Nope, mostly not. That is unfortunate because difficult to evaluate evidence and spot errors.
+also makes replications more difficult and burdens the system by resource waste.
+
+Are there errors? RESULTS. Hell yeah, could be avoided by more transparency
+Power analyses? In those studies that perform test hypotheses, they do never perfrom power analysis. Difficult to evaluate both positive and negative findings.
+
+What can we do
+
+- Share everything
+- Preregister (so far nobody does)
+- do and publish direct replications
+
+
+## Data analysis
+We used `r cite_r("r-references.bib")` for all our analyses.
+
+
+
+\newpage
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
