@@ -3,6 +3,8 @@ articles/PDF/*.*
 articles/XML/*.*
 articles/HTML/*.*
 articles/PDF_subsample/*.*
+articles/PDF_manual_review/Mathias/*.*
+articles/PDF_manual_review/Timo/*.*
 
 
 #####
