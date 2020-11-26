@@ -86,48 +86,81 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
-# Introduction
+# 1. Introduction
 
-Labphon is awesome because
-- read the original Pierrehumbert, J., Beckman, M. E., & Ladd, D. R. (2000). Conceptual foundations of phonology as a laboratory science. Phonological knowledge: Conceptual and empirical issues, 273-304.
+The scientific endeavor to understand how human sound systems are learned and used is increasingly shaped by quantitative analyses of experimental and corpus data. 
+Today, speech scientists incorporate methodologies and perspectives from diverse fields such as physics, psychology, sociology, and computer science and apply complex statistical models to make inferences beyond limited observations (REFS). 
+According to Pierrehumbert, Beckman and Ladd (2012), as laid out in there influential position paper, a multidisciplinary, quantitative approach to human speech patterns is what "Laboratory Phonology" has become to stand for. 
+Pierrehumbert et al. (2012) also stress that research activities within the laboratory phonology framework "[...] share a concern for strengthening the scientific foundations of phonology through improved methodology, explicit modeling, and cumulation of results." (Pierrehumbert, Beckman, & Ladd, 2012: 18).
+This paper is conceived of in the spirit of improving methodology and guaranteeing accumulation of scientific evidence in Laboratory Phonology as a field.  
+In order to effectively accumulate knowledge, science needs to (1) produce data that can be replicated using the original methods and (2) arrive at robust and repeatable conclusions substantiated by the data. 
+(1) is concerned with the replicability of scientific findings. To establish knowledge stability by verifying a specific scientific finding we need to be able to repeat it (Drawing & Schmidt 2009). 
+(2) is concerned with the reproducibility of scientific findings.
+(Computational) reproducibility allows one to "recreate the final reported results of the project, including key quantitative findings, tables, and figures, given only a set of files and written instructions" (Kitzes, Turek, & Deniz 2017: ##).
+Recent coordinated efforts to replicate and reproduce published findings showed concerning low replication rates (e.g., Open Science Collaboration 2015, Camerer et al. 2018) and lack of reproducibility (e.g. Hardwicke et al. 2017). 
+Reasons for the lack of replicability of findings are manifold (for an overview, see REF). 
+One common problem is that quantitative studies base their conclusions on a small number of observations, leading to a high rate of false-negatives (REF) and overconfident (mis)estimations (REF).
+Reasons for the lack of reproducibility usually boil down to data tables and statistical scripts being not available (Harwicke & Ioannidis 2018) or human error (REFS). 
+Access to research data allows verification of the original claims, further discovery and hypothesis generation, and evidence synthesis across studies.
+We strongly belief that to improve methodology, we need to assess past and present research practices.
+The present paper thus accesses research practices in the field of Laboratory Phonology by analyzing research published in the flagship journal of the Association for Laboratory Phonology - Laboratory Phonology (henceforth LabPhon). 
+We access how prevalent direct replications are, how often data, scripts and materials are shared, how often sample sizes are justified by power analyses, and how prevalent human errors are in statistical reporting. 
 
-From official editorial policies: 
+# 2. The data set
+We restrict ourselves here to papers that were published at LabPhon at Ubiquity Press because all papers are open access and can be automatically queried for specific search terms. LabPhon is not only an influential outlet for a diverse collection of research on human speech, it also explicitly encourages practices that increase evidence dissemination. LabPhon "strongly encourages authors to make all data associated with their submission openly available, according to the FAIR principles [...]" and states  that "[i]f research includes the use of software code, statistical analysis or algorithms then we also *recommend* that authors upload the code" onto third party websites (https://www.journal-labphon.org/about/research-integrity/).  
 
-"The journal *strongly encourages* authors to make all data associated with their submission openly available, according to the FAIR principles (Findable, Accessible, Interoperable, Reusable). This should be linked to from a Data Accessibility Statement within the submitted paper, which will be made public upon publication. If data is not being made available with the journal publication then ideally a statement from the author should be provided within the submission to explain why. Data obtained from other sources must be appropriately credited."
+@Mathias describe pulling strategy. 
+At the time of writing, our sample included all papers published between 2016-03-16 and 2020-##-##.
+Exclusion etc. ... , resulting in $97$ article. 
+As a first step, we categorized articles into experimental and non-experimental papers. 
+If the authors of a paper referred to their empirical investigation as experimental or the study was clearly characterized by the manipulation of an independent variable to measure an dependent variable (under control of extraneous variables), we considered the study as experimental. 
+Out of the 97 papers $78$ qualify as experimental, the remainder are either theoretical papers ($2$), (re-)analyses ($3$), simulations ($1$), observational studies ($3$) or corpus analyses($9$). 
 
-"If research includes the use of software code, statistical analysis or algorithms then we also *recommend* that authors upload the code into Code Ocean, where it will be hosted on an open, cloud-based computational reproducibility platform, providing researchers and developers with an easy way to share, validate and discover code published in academic journals."
+# 3. Results
+## 3.1 How prevalent are direct replications
+Conducting and publishing replications are an important cornerstone of evidence accumulation.
+Replications can differ along several dimensions and thus there are a number of taxonomies for categorizing replications that have been suggested (e.g. Hüffmeier et al. 2016, Schmidt & Oh 2016).
+We focus on the distinction between direct and conceptual replication studies (Schmidt 2009, Makel et al. 2012, Zwaan et al. 2018). 
+A direct replication is a "study that attempts to recreate the critical elements (e.g., samples, procedures, and measures) of an original study where those elements are understood according to "a theoretical commitment based on the current understanding of the phenomenon under study, reflecting current beliefs about what is needed to produce a finding"" (Nosek & Errington 2017, Zwaan et al. 2018).
+If there are theoretical reasons to assume a difference between samples, for example, comparing a study with English participants to an identical study with Berber participants, then the replication  would not be considered a direct one. 
+Another example would be a study that alters the design of the original study, using stimuli with different properties, extending an effect to a different phenomenon, etc.
+These attempts would be considered conceptual because the experiment is designed to test whether an effect extends to a different population/phenomenon and there are theoretical reasons to assume it will be either significantly weaker or stronger the the replication attempt. 
+This distinction is important because if a conceptual replication fails, it can be argued that the differences in the designs of original and replication attempt lead to diverging results. 
+In contrast, a failed direct replication cannot be deflected and should update our beliefs about the empirical reliability of the phenomenon under investigation.
+We searched all papers reporting experimental studies for the search term replic*. 
+The term was found in 42 papers. 
+We manually evaluated each appearance and categorized their use. 
+Most papers used the verb replicate to refer to a scenario in which an previously observed phenomenon could be observed again. It is often used either to describe the state of the art in the background section or as describing the authors' own findings. 
+For example, Gustafson and Bradlow (2016: 20) states that "This significant difference between the L1-French and L2-French groups indicates a successful replication of Mattys and colleagues (2010)". 
+Both studies found similar listener behavior, but they differ substantially. The original study used English speakers and looked at different cues to segmentation, thus extending but not directly replicating findings presented by Mattys et al. (2010). 
+The only study that came close to a direct replication, according to our working definition above, might be  Walker et al. (2019). They replicated the stuffed animal study by Hay and Drager (2010). 
+However, they diverged from the original design in terms of the nature of the stimuli and the stimuli manipulation, technically rendering it a conceptual replication. 
+All changes to the design of Hay and Drager (2010) were intended to improve the precision of measuring the underlying phenomenon. 
+One paper out of $74$, gives us a replication rate of $1.4%$ which closely resembles similarly low replication rates found in psychology (1.1% in Makel et al. 2012). 
+Regardless of whether we consider Walker et al.'s study a direct replication or not, it becomes obvious that direct replications are not very common in LabPhon. 
 
-replicability and reproducibility in quant sciences
-- lack or replicability
-- reasons:
-  - lack of transparency
-    - errors and bias
-    - unclear value of evidence (--> power)
-   - researcher degrees of freedoms not detectable
-  - lack of direct replication
-    - cannot ensure empirical robustness
-    
-Where does LabPhon stand?    
+## 3.2 How prevalent are power analysis
+Next we assessed how many experimental studies justified their sample size with power analyses.
+Statistical power refers to the probability that a statistical test rejects the null hypothesis when a specific alternative hypothesis. In other words, if there is an effect, power tells us how likely we are to find it given our sample size, all variance components, the effect size and the statistical model we used. 
 
-# Is LabPhon research open?
-RESULTS
+ISSUE
 
-Nope, mostly not. That is unfortunate because difficult to evaluate evidence and spot errors.
-also makes replications more difficult and burdens the system by resource waste.
+Phonetics discussed for example in Kirby & Sonderegger (2018), Nicenboim et al. (2018), etc.
+
+## 3.3 Are materials openly shared?
+
+## 3.4 Are there errors?
+
 
 Are there errors? RESULTS. Hell yeah, could be avoided by more transparency
 Power analyses? In those studies that perform test hypotheses, they do never perfrom power analysis. Difficult to evaluate both positive and negative findings.
 
+## 4 Recommendations
 What can we do
 
 - Share everything
 - Preregister (so far nobody does)
 - do and publish direct replications
-
-
-## Data analysis
-We used `r cite_r("r-references.bib")` for all our analyses.
-
 
 
 \newpage

@@ -34,7 +34,8 @@ write_csv(expanded, "data/hyperlinks.csv")
 #################################
 ```
 
-```{r message=FALSE, warning=FALSE}
+```{r message = FALSE, warning=FALSE}
+
 # Load the reviewed data
 link_df <- read_csv("../data/hyperlinks_reviewed.csv")
 
@@ -65,6 +66,7 @@ assess_papers <- link_df %>%
   filter(type == "data/scripts/tutorials/software") %>% 
   distinct(title) %>% 
   nrow()
+
 ```
 
 There are **`r n_links`** hyperlinks in total, provided by **`r provides_links`** of the total of **`r papers`** papers. Not all of these links can still be accessed, but are 'dead' or 'rotten', leaving **`r alive`** active links. Many of these links point to websites that don't contain any sort of output (data, software, stimuli, scripts etc.) directly or indirectly resulting from the research for the respective paper, reducing the number of potentially relevant linkings to **`r possibly_relevant`**. Some LabPhon articles contain individual links per supplementary (speech) sound file (**`r soundfiles`** such links in total), so there remain **`r possibly_relevant - soundfiles`** links to be assessed in manual review, to be found in **`r assess_papers`** individual papers.

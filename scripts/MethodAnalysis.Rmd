@@ -1,0 +1,130 @@
+---
+title: "MethodsAnalysis"
+author: "Timo Roettger"
+date: "11/24/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load in data}
+
+# load in packages
+library(rstudioapi)
+library(tidyverse)
+
+# load in statcheck output
+method <- read_csv2("../data/methods_review.csv")
+links <- read_csv("data/hyperlinks_reviewed.csv")
+
+df <- full_join(method, links)
+
+```
+
+## 1. Number of Empirical and Experimental
+
+How many papers are in the dataframe?
+
+```{r echo = FALSE, eval = FALSE}
+
+length(unique(method$title))
+
+```
+
+
+How many are empirical in nature?
+
+```{r echo = FALSE, eval = FALSE}
+
+method_empirical <- method %>% 
+  filter(empirical == "yes")
+
+nrow(method_empirical)
+
+```
+
+How many are experimental in nature?
+
+```{r echo = FALSE, eval = FALSE}
+
+method_experimental <- method %>% 
+  filter(type == "experimental")
+
+no_experiment <- nrow(method_experimental)
+no_experiment
+
+```
+
+Other types?
+
+```{r echo = FALSE, eval = FALSE}
+
+xtabs(~type, method)
+
+```
+
+## 2. Number of Replications
+
+How many of the experimental studies mentioned the term replic*
+
+```{r echo = FALSE, eval = FALSE}
+
+method_experimental_replic <- method_experimental %>% 
+  filter(replic == "yes")
+
+no_replic <- nrow(method_experimental_replic)
+no_replic
+
+```
+
+None of which qualifies as a direct replication.
+
+## 2. Number of Power analysis
+
+How many studies did a power analysis?
+
+```{r echo = FALSE, eval = FALSE}
+
+method_experimental_power <- method_experimental %>% 
+  filter(power == "yes")
+
+no_power <- nrow(method_experimental_power)
+no_power
+
+```
+
+Which papers did a power analysis?
+
+```{r echo = FALSE, eval = FALSE}
+
+method_experimental_power$title
+
+```
+
+```{r echo = FALSE, eval = FALSE}
+
+
+
+```
+
+```{r echo = FALSE, eval = FALSE}
+
+
+
+```
+
+```{r echo = FALSE, eval = FALSE}
+
+
+
+```
+
+```{r echo = FALSE, eval = FALSE}
+
+
+
+```
+
